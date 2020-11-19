@@ -1,9 +1,29 @@
 import React from "react"
 import Layout from "../Layouts/Layout"
 import styled from "@emotion/styled"
-// import MainImage from "../Images/IMG_1135 (1).JPG"
+import BackgroundImage from "gatsby-background-image"
+import { css, jsx } from "@emotion/react"
+import { useStaticQuery, graphql } from "gatsby"
 
-export default function Home() {
+export default function Home({ className }) {
+  // const backgroundStyles = css`
+  //   background-image: url(${MainImage});
+  // `
+
+  const data = useStaticQuery(graphql`
+    query {
+      desktop: file(relativePath: { eq: "IMG_1135 (1).JPG" }) {
+        childImageSharp {
+          fluid(quality: 90, maxWidth: 1920) {
+            ...GatsbyImageSharpFluid_withWebp
+          }
+        }
+      }
+    }
+  `)
+
+  const imageData = data.desktop.childImageSharp.fluid
+
   const HomeSection = styled.div(`
   font-family: 'Poppins', sans-serrif
     display: flex;
@@ -42,6 +62,12 @@ export default function Home() {
     }
   `
 
+  const HomePresetImageWrapper = styled.div`
+    display: flex
+    gap: 5vw
+
+    `
+
   return (
     <Layout>
       <HomeSection>
@@ -69,11 +95,28 @@ export default function Home() {
             These 3 presets are my go-to editing styles for everything far and
             in between. Here, you’ll find 3 film inspired, warm, and dreamy
             presets that will work on just about any photo you desire. I’m
-            excited to see what you make with these, tag #shotzbyalexpreset so I
-            can share with the world.
+            excited to see what you make with these, tag #shotByCharis so I can
+            share with the world.
           </HomeP>
+          <HomePresetImageWrapper>
+            <BackgroundImage
+              Tag="section"
+              fluid={imageData}
+              className={className}
+              backgroundColor={`#040e18`}
+              style={{ width: 600, height: 400 }}
+            >
+              <h2>gatsby-background-image</h2>
+            </BackgroundImage>
+          </HomePresetImageWrapper>
         </HomeTextContent>
       </HomeSection>
     </Layout>
   )
 }
+
+const HomePresetImage = styled(BackgroundImage)`
+  background-position: bottom center;
+  background-repeat: no-repeat;
+  background-size: cover;
+`

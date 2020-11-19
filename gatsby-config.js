@@ -6,12 +6,26 @@
 require("dotenv").config({
   path: `.env`,
 })
+const path = require("path")
 
 module.exports = {
+  siteMetadata: {
+    title: "Charis Cheung Presets",
+    author: "Charis Cheung",
+  },
   /* Your site config here */
   plugins: [
     `gatsby-plugin-sass`,
-
+    `gatsby-background-image`,
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `Images`,
+        path: path.join(__dirname, "src", "Images"),
+      },
+    },
+    `gatsby-transformer-sharp`,
+    `gatsby-plugin-sharp`,
     {
       resolve: `gatsby-source-shopify`,
       options: {
